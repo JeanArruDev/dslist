@@ -6,29 +6,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.devsuperior.dslist.dto.GameDTO;
+import com.devsuperior.dslist.dto.GameListDTO;
 import com.devsuperior.dslist.dto.GameMinDTO;
 import com.devsuperior.dslist.entities.Game;
-import com.devsuperior.dslist.repositories.GameRepository;
+import com.devsuperior.dslist.entities.GameList;
+import com.devsuperior.dslist.repositories.GameListRepository;
 //Anotação para registrar o componente, @Component
 @Service
-public class GameService {
+public class GameListService {
 	
 	//injetar uma na outra(o proprio spring resolve)
 	@Autowired
-	private GameRepository gamerepository;
+	private GameListRepository gameListRepository;
 	
 	@Transactional(readOnly = true)
-	public GameDTO findById(Long id) {
-		Game result = gamerepository.findById(id).get();
-		GameDTO dto = new GameDTO(result);
-		return dto;
-	}
-	@Transactional(readOnly = true)
-	public List<GameMinDTO> findAll(){
-		List<Game> result = gamerepository.findAll();
+	public List<GameListDTO> findAll(){
+		List<GameList> result = gameListRepository.findAll();
 		//Macete para transformar objetos de um tipo para outro
-		List<GameMinDTO> dto = result.stream().map(x -> new GameMinDTO(x)).toList();
+		List<GameListDTO> dto = result.stream().map(x -> new GameListDTO(x)).toList();
 		return dto;
 	}
 }
